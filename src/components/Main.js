@@ -1,46 +1,36 @@
 import React from "react";
-import api from "../utils/api";
+
 import Card from "./Card";
 import defaultAvatar from '../images/avatar.png';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
-  const [userAvatar, setUserAvatar] = React.useState(defaultAvatar);
-  const [userName, setUserName] = React.useState('. . .');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getUserInfo()
-      .then(res => {
-        setUserAvatar(res.avatar);
-        setUserName(res.name);
-        setUserDescription(res.about);
-      })
-      .catch(err => console.error(err));
-
-    api.getInitialCards()
-      .then(res => {
-        setCards(res);
-      })
-      .catch(err => console.error(err));
-  }, []);
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+}) {
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-overlay" onClick={onEditAvatar}>
           <img className="profile__avatar"
-            src={userAvatar}
+            src={currentUser.avatar ?? defaultAvatar}
             alt="Аватар пользователя" />
         </div>
 
         <div className="profile__info">
           <div className="profile__wrap">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{currentUser.name ?? ". . ."}</h1>
             <button className="profile__edit-button" type="button" aria-label="Редактировать профиль" onClick={onEditProfile}></button>
           </div>
-          <p className="profile__subtitle">{userDescription}</p>
+          <p className="profile__subtitle">{currentUser.about}</p>
         </div>
         <button className="profile__add-button" type="button" aria-label="Добавить изображения" onClick={onAddPlace}></button>
       </section>
@@ -52,6 +42,8 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
               card={card}
               key={card._id}
               onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>

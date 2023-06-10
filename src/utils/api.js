@@ -9,19 +9,9 @@ class Api {
    * - baseUrl - Базовая часть url-адреса сервера
    * - headers - Заголовки запроса, будут передаваться при каждом обращении
    */
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
-  }
-
-  _checkResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return res.json()
-      .then(res => {
-        throw new Error(res.message);
-      });
   }
 
   /**
@@ -32,10 +22,14 @@ class Api {
     const url = `${this._baseUrl}/users/me`;
 
     return fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: this._headers,
-    })
-    .then(this._checkResponse);
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -45,18 +39,22 @@ class Api {
    * - job - профессия пользователя
    * @returns {Promise} Промис с ответом сервера: обновленный объект пользователя
    */
-  setUserInfo({name, job}) {
+  setUserInfo({ name, about }) {
     const url = `${this._baseUrl}/users/me`;
 
     return fetch(url, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name,
-        about: job
-      })
-    })
-    .then(this._checkResponse);
+        about,
+      }),
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -68,13 +66,17 @@ class Api {
     const url = `${this._baseUrl}/users/me/avatar`;
 
     return fetch(url, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: link
-      })
-    })
-    .then(this._checkResponse);
+        avatar: link,
+      }),
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -85,10 +87,14 @@ class Api {
     const url = `${this._baseUrl}/cards`;
 
     return fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: this._headers,
-    })
-    .then(this._checkResponse);
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -98,18 +104,22 @@ class Api {
    * - link - ссылка на добавляемую картинку
    * @returns {Promise} Промис с ответом сервера: объект созданной карточки
    */
-  addNewCard({name, link}) {
+  addNewCard({ name, link }) {
     const url = `${this._baseUrl}/cards`;
 
     return fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         name,
-        link
-      })
-    })
-    .then(this._checkResponse);
+        link,
+      }),
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -121,10 +131,14 @@ class Api {
     const url = `${this._baseUrl}/cards/${cardId}`;
 
     return fetch(url, {
-      method: 'DELETE',
-      headers: this._headers
-    })
-    .then(this._checkResponse);
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) return Promise.resolve();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    });
   }
 
   /**
@@ -136,12 +150,13 @@ class Api {
     const url = `${this._baseUrl}/cards/${cardId}/likes`;
 
     return fetch(url, {
-      method: 'PUT',
-      headers: this._headers
-    })
-    .then(this._checkResponse)
-    .then(res => {
-      return res.likes;
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
     });
   }
 
@@ -154,12 +169,13 @@ class Api {
     const url = `${this._baseUrl}/cards/${cardId}/likes`;
 
     return fetch(url, {
-      method: 'DELETE',
-      headers: this._headers
-    })
-    .then(this._checkResponse)
-    .then(res => {
-      return res.likes;
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) return res.json();
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
     });
   }
 
