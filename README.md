@@ -18,17 +18,13 @@
  - Валидация форм
 
 ## Стек технологий
-* [![React][React.js]][React-url]
-    * <a href="https://reactjs.org/docs/context.html">React context</a>
-    * <a href="https://reactjs.org/docs/hooks-overview.html">React hoocks</a>
-    * <a href="https://reactrouter.com/en/main">React router</a>
-* [![JavaScript][JavaScript]][JavaScript-url]
-    * <a href="https://reactjs.org/docs/introducing-jsx.html">расширение jsx</a>
-* [![Webpack][Webpack]][Webpack-url]
-* [![Npm][Npm]][Npm-url]
-* [![Babel][Babel]][Babel-url]
-* [![BEM][Bem]][Bem-url]
-    * <a href="https://ru.bem.info/methodology/filestructure/#nested">BEM nested</a>
+* React
+  - использование Create React App
+  - хуки `useState` и `useEffect`
+  - поднятие стейта
+  - глобальный стейт через React Context
+  - управляемые компоненты в элементах формы
+  - использование реф для прямого доступа к DOM-элементам
 
 ## Установка
 
